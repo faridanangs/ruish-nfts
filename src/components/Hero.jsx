@@ -17,7 +17,7 @@ function Hero() {
             NFTs
           </span>
         </div>
-        <p className="mt-14 font-normal text-base text-blue-gray-50 max-w-lg text-center mx-auto">
+        <p className="mt-14 font-normal text-base text-blue-gray-50 max-w-lg text-center mx-auto lg:text-lg">
           Experience tokenization with our NFTs to keep your assets safe from
           loss, duplication, damage, etc
         </p>

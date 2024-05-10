@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { HoverBorderGradient } from "@/components/ui/border-gradient";
-import { FcNext } from "react-icons/fc";
+import { GrLinkNext } from "react-icons/gr";
 
 
 export function Button({text}) {
@@ -10,10 +10,10 @@ export function Button({text}) {
       <HoverBorderGradient
         containerClassName="rounded-full"
         as="button"
-        className="dark:bg-black bg-white text-black dark:text-[#99cae3c6] flex items-center space-x-2"
+        className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2"
       >
         <span>{text}</span>
-        <FcNext className="text-[#99cae3c6]"/>
+        <GrLinkNext/>
       </HoverBorderGradient>
     </div>
   );

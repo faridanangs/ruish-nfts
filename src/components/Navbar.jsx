@@ -27,6 +27,7 @@ import {
   SquaresPlusIcon,
   SunIcon,
   TagIcon,
+  PlusCircleIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/solid";
 import { useStateContext } from "@/context/nfts";
@@ -34,44 +35,46 @@ import { AlertCustomStyles } from "./Notification";
 
 const navListMenuItems = [
   {
-    title: "Products",
-    description: "Find the perfect solution for your needs.",
-    icon: SquaresPlusIcon,
+    title: "Create NFTs",
+    description: "Create a nft.",
+    icon: PlusCircleIcon,
+    link: "/create-nft",
   },
   {
     title: "About Us",
     description: "Meet and learn about our dedication",
     icon: UserGroupIcon,
+    link: "#",
   },
   {
     title: "Blog",
     description: "Find the perfect solution for your needs.",
     icon: Bars4Icon,
+    link: "#",
   },
   {
     title: "Services",
     description: "Learn how we can help you achieve your goals.",
     icon: SunIcon,
+    link: "#",
   },
   {
     title: "Support",
     description: "Reach out to us for assistance or inquiries",
     icon: GlobeAmericasIcon,
+    link: "#",
   },
   {
     title: "Contact",
     description: "Find the perfect solution for your needs.",
     icon: PhoneIcon,
+    link: "#",
   },
   {
     title: "News",
     description: "Read insightful articles, tips, and expert opinions.",
     icon: NewspaperIcon,
-  },
-  {
-    title: "Products",
-    description: "Find the perfect solution for your needs.",
-    icon: RectangleGroupIcon,
+    link: "#",
   },
 ];
 
@@ -79,9 +82,9 @@ function NavListMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const renderItems = navListMenuItems.map(
-    ({ icon, title, description }, key) => (
-      <a href="#" key={key}>
-        <MenuItem className="flex items-center gap-3 rounded-lg">
+    ({ icon, title, description, link }, key) => (
+      <a href={link} key={key}>
+        <MenuItem className="flex items-center gap-3 rounded-lg hover:bg-gray-700">
           <div className="flex items-center justify-center rounded-lg !bg-black/80 p-2 ">
             {" "}
             {React.createElement(icon, {
@@ -141,8 +144,8 @@ function NavListMenu() {
             </ListItem>
           </Typography>
         </MenuHandler>
-        <MenuList className="hidden max-w-screen-xl rounded-xl lg:block">
-          <ul className="grid grid-cols-3 gap-y-2 outline-none outline-0">
+        <MenuList className="hidden max-w-screen-xl rounded-xl lg:block dark:bg-black">
+          <ul className="grid grid-cols-3 gap-2 outline-none outline-0">
             {renderItems}
           </ul>
         </MenuList>
@@ -197,7 +200,7 @@ export function NavbarWithMegaMenu() {
   return (
     <>
       {notification ? <AlertCustomStyles text={notification} /> : ""}
-      <Navbar className="mx-auto max-w-screen-xl px-4 py-2 rounded-none border-none sticky top-0 z-50 backdrop-blur-3xl bg-transparent ">
+      <Navbar className="mx-auto max-w-screen-xl px-4 py-2 rounded-none border-none sticky top-0 z-50 backdrop-blur-3xl bg-black">
         <div className="flex items-center justify-between text-blue-gray-200">
           <Typography
             as="a"
@@ -214,7 +217,7 @@ export function NavbarWithMegaMenu() {
             <Button variant="gradient" size="sm">
               {address
                 ? address.slice(0, 5) + "..." + address.slice(-5)
-                : "Sign In"}
+                : "Connect"}
             </Button>
           </div>
           <IconButton

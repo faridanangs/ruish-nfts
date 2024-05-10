@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme";
 import ContextRoot from "@/context/app";
+import { NavbarWithMegaMenu } from "@/components/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,9 +18,9 @@ export default function RootLayout({ children }) {
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
-          enableSystem
           disableTransitionOnChange>
           <ContextRoot>
+            <NavbarWithMegaMenu />
             {children}
           </ContextRoot>
         </ThemeProvider>
