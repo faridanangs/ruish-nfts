@@ -47,10 +47,10 @@ const navListMenuItems = [
     link: "#",
   },
   {
-    title: "Blog",
-    description: "Find the perfect solution for your needs.",
+    title: "Nft Collection",
+    description: "Search for the NFT collection you want.",
     icon: Bars4Icon,
-    link: "#",
+    link: "/nft-collection",
   },
   {
     title: "Services",

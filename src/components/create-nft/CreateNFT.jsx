@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import image1 from "../Image/1.jpg";
 import { IoMdClose } from "react-icons/io";
-import { SignupFormDemo } from "./property";
+import { BottomGradient, SignupFormDemo } from "./property";
 import { useStateContext } from "@/context/nfts";
 
 const CreateNFT = () => {
@@ -30,9 +30,9 @@ const CreateNFT = () => {
   };
 
   return (
-    <div className="text-white max-w-screen-xl mx-auto w-full md:min-h-[80vh] md:items-center justify-center md:flex">
-      <div className="flex flex-col items-center bg-white/10 md:flex-row md:justify-between md:px-8 md:items-start md:gap-6 pt-8 md:py-20 md:rounded-md w-full backdrop-blur-md">
-        <div className="w-[22rem] h-[22rem] border-dashed border-[2px] flex items-center justify-center flex-col p-2 relative max-w-[22rem] min-w-[20rem]">
+    <div className="text-white bg-black max-w-screen-xl mx-auto w-full md:min-h-[100vh] md:items-center justify-center md:flex">
+      <div className="flex flex-col items-center md:flex-row md:justify-between md:px-8 md:items-start md:gap-6 pt-8 md:py-20 md:rounded-md w-full ">
+        <div className="w-[22rem] h-[22rem] border-dashed border-[2px] flex items-center justify-center flex-col p-2 md:p-0 md:mt-3 relative max-w-[22rem] min-w-[20rem]">
           {display != null ? (
             <>
               <span className="absolute top-2 right-2 z-10">
@@ -59,7 +59,7 @@ const CreateNFT = () => {
                   d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"
                 />
               </svg>
-              <label htmlFor="file" className="cursor-pointer hover:scale-110 transition-all duration-100">
+              <label htmlFor="file" className="cursor-pointer text-blue-500 hover:scale-110 transition-all duration-100">
                 <p>Selected File Here</p>
               </label>
               <input
