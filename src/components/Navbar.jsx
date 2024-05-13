@@ -65,12 +65,6 @@ const navListMenuItems = [
     link: "#",
   },
   {
-    title: "Contact",
-    description: "Find the perfect solution for your needs.",
-    icon: PhoneIcon,
-    link: "#",
-  },
-  {
     title: "News",
     description: "Read insightful articles, tips, and expert opinions.",
     icon: NewspaperIcon,
@@ -167,7 +161,9 @@ function NavList() {
         color="blue-gray"
         className="font-medium"
       >
-        <ListItem className="flex items-center gap-2 py-2 pr-4 font-medium text-blue-gray-200">Home</ListItem>
+        <ListItem className="flex items-center gap-2 py-2 pr-4 font-medium text-blue-gray-200">
+          Home
+        </ListItem>
       </Typography>
       <NavListMenu />
       <Typography
@@ -178,7 +174,7 @@ function NavList() {
         className="font-medium"
       >
         <ListItem className="flex items-center gap-2 py-2 pr-4 font-medium text-blue-gray-200">
-          Contact Us
+          News
         </ListItem>
       </Typography>
     </List>
@@ -187,8 +183,7 @@ function NavList() {
 
 export function NavbarWithMegaMenu() {
   const [openNav, setOpenNav] = React.useState(false);
-  const { connectWallet, address, notification } =
-    useStateContext();
+  const { connectWallet, address, notification } = useStateContext();
 
   React.useEffect(() => {
     window.addEventListener(
@@ -200,7 +195,7 @@ export function NavbarWithMegaMenu() {
   return (
     <>
       {notification ? <AlertCustomStyles text={notification} /> : ""}
-      <Navbar className="mx-auto max-w-screen-xl px-4 py-2 rounded-none border-none sticky top-0 z-50 backdrop-blur-3xl bg-black">
+      <Navbar className="mx-auto max-w-screen-xl px-4 py-2 rounded-none border-none sticky top-0 z-[9999999] backdrop-blur-3xl bg-black">
         <div className="flex items-center justify-between text-blue-gray-200">
           <Typography
             as="a"
@@ -240,7 +235,7 @@ export function NavbarWithMegaMenu() {
               variant="gradient"
               size="sm"
               fullWidth
-              onClick={() => connectWallet()}
+              onClick={connectWallet}
             >
               {address
                 ? address.slice(0, 5) + "..." + address.slice(-5)

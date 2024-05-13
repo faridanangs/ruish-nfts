@@ -1,15 +1,16 @@
 "use client";
 
-import { PlaceholdersAndVanishInput } from "../ui/search-input"
+import { PlaceholdersAndVanishInput } from "../ui/search-input";
 
 export function Search() {
   const placeholders = [
-    "What's the first rule of Fight Club?",
-    "Who is Tyler Durden?",
-    "Where is Andrew Laeddis Hiding?",
-    "Write a Javascript method to reverse a string",
-    "How to assemble your own PC?",
-  ];
+    "What makes NFTs so unique?",
+    "What is DeFi (Decentralized Finance)?",
+    "How is a blockchain transaction validated?",
+    "Write a smart contract to mint an NFT on Ethereum.",
+    "What is Proof of Stake consensus in crypto?",
+];
+
 
   const handleChange = (e) => {
     console.log(e.target.value);
@@ -19,7 +20,10 @@ export function Search() {
     console.log("submitted");
   };
   return (
-    <div className="px-2">
+    <div className="mb-8">
+      <h2 className="mb-4 text-xl text-center sm:text-3xl dark:text-white text-black mt-8 font-bold">
+        Search for The NFT You Want
+      </h2>
       <PlaceholdersAndVanishInput
         placeholders={placeholders}
         onChange={handleChange}

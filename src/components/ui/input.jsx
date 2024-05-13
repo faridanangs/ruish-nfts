@@ -5,7 +5,7 @@ import { cn } from "@/utils/cn";
 import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
 
 const Input = React.forwardRef(
-  ({ className, type, ...props }, ref) => {
+  ({ className, type, onChange, ...props }, ref) => {
     const radius = 100; // change this to increase the rdaius of the hover effect
     const [visible, setVisible] = React.useState(false);
 
@@ -46,8 +46,10 @@ const Input = React.forwardRef(
            `,
             className
           )}
+          onChange={(e) => onChange(e.target.value)}
           ref={ref}
           {...props}
+          required
         />
       </motion.div>
     );

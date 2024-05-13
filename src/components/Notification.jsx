@@ -19,10 +19,10 @@ function Icon() {
 
 export function AlertCustomStyles({ text }) {
   return (
-    <div className="absolute top-20 right-0 z-10">
+    <div className="absolute top-20 right-0 z-[9999999999]">
       <Alert
         icon={<Icon />}
-        className="rounded-none border-l-4 border-[#1b1f1c] bg-[#b0b3b07b] font-medium text-[#141514]"
+        className="rounded-none border-l-4 border-[#1b1f1c] bg-[white] font-medium text-[#141514]"
       >
         {text}
       </Alert>

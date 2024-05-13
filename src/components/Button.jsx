@@ -4,10 +4,10 @@ import { HoverBorderGradient } from "@/components/ui/border-gradient";
 import { GrLinkNext } from "react-icons/gr";
 import Link from "next/link";
 
-export function Button({ text }) {
+export function ButtonAnim({ text, link }) {
   return (
     <div className=" flex justify-center text-center">
-      <Link href="/nft-collection">
+      <Link href={link}>
         <HoverBorderGradient
           containerClassName="rounded-full"
           as="button"

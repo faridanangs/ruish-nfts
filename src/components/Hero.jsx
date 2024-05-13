@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Spotlight } from "@/components/ui/Spotlight";
-import { Button } from "./button";
+import { ButtonAnim } from "./Button";
 
 function Hero() {
   return (
@@ -13,9 +13,7 @@ function Hero() {
       <div className=" p-4 max-w-7xl  mx-auto relative z-10  w-full pt-20 md:pt-0">
         <div className="text-4xl md:text-7xl sm:text-6xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-blue-gray-100 to-blue-gray-200 bg-opacity-70">
           Keep your assets safe by tokenizing them using &nbsp;
-          <span className="text-[#99cae3c6] ">
-            NFTs
-          </span>
+          <span className="text-[#99cae3c6] ">NFTs</span>
         </div>
         <p className="mt-14 font-normal text-base text-blue-gray-50 max-w-lg text-center mx-auto lg:text-lg">
           Experience tokenization with our NFTs to keep your assets safe from
@@ -23,7 +21,7 @@ function Hero() {
         </p>
       </div>
       <div className="mt-8">
-        <Button text="Get Started"/>
+        <ButtonAnim link="/nft-collection" text="Get Started" />
       </div>
     </div>
   );
