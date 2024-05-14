@@ -125,26 +125,26 @@ function NavListMenu() {
               Resources
               <ChevronDownIcon
                 strokeWidth={2.5}
-                className={`hidden h-3 w-3 transition-transform lg:block ${
+                className={`hidden h-3 w-3 transition-transform md:block ${
                   isMenuOpen ? "rotate-180" : ""
                 }`}
               />
               <ChevronDownIcon
                 strokeWidth={2.5}
-                className={`block h-3 w-3 transition-transform lg:hidden ${
+                className={`block h-3 w-3 transition-transform md:hidden ${
                   isMobileMenuOpen ? "rotate-180" : ""
                 }`}
               />
             </ListItem>
           </Typography>
         </MenuHandler>
-        <MenuList className="hidden max-w-screen-xl rounded-xl lg:block dark:bg-black">
+        <MenuList className="hidden max-w-screen-xl rounded-xl md:block dark:bg-black">
           <ul className="grid grid-cols-3 gap-2 outline-none outline-0">
             {renderItems}
           </ul>
         </MenuList>
       </Menu>
-      <div className="block lg:hidden">
+      <div className="block md:hidden">
         <Collapse open={isMobileMenuOpen}>{renderItems}</Collapse>
       </div>
     </React.Fragment>
@@ -153,7 +153,7 @@ function NavListMenu() {
 
 function NavList() {
   return (
-    <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1">
+    <List className="mt-4 mb-6 p-0 md:mt-0 md:mb-0 md:flex-row md:p-1">
       <Typography
         as="a"
         href="/"
@@ -201,14 +201,14 @@ export function NavbarWithMegaMenu() {
             as="a"
             href="#"
             variant="h6"
-            className="mr-4 cursor-pointer py-1.5 lg:ml-2"
+            className="mr-4 cursor-pointer py-1.5 md:ml-2"
           >
             RUISH-NFTs
           </Typography>
-          <div className="hidden lg:block">
+          <div className="hidden md:block">
             <NavList />
           </div>
-          <div className="hidden gap-2 lg:flex" onClick={() => connectWallet()}>
+          <div className="hidden gap-2 md:flex" onClick={() => connectWallet()}>
             <Button variant="gradient" size="sm">
               {address
                 ? address.slice(0, 5) + "..." + address.slice(-5)
@@ -218,7 +218,7 @@ export function NavbarWithMegaMenu() {
           <IconButton
             variant="text"
             color="blue-gray"
-            className="lg:hidden"
+            className="md:hidden"
             onClick={() => setOpenNav(!openNav)}
           >
             {openNav ? (
@@ -230,7 +230,7 @@ export function NavbarWithMegaMenu() {
         </div>
         <Collapse open={openNav}>
           <NavList />
-          <div className="flex w-full flex-nowrap items-center gap-2 lg:hidden">
+          <div className="flex w-full flex-nowrap items-center gap-2 md:hidden">
             <Button
               variant="gradient"
               size="sm"
