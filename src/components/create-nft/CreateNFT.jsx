@@ -5,16 +5,12 @@ import { IoMdClose } from "react-icons/io";
 import { SignupFormDemo } from "./property";
 import { useStateContext } from "@/context/nfts";
 import Loading from "../loading/Loading";
-import { useRouter } from "next/navigation";
-import { Button } from "@material-tailwind/react";
 
 const CreateNFT = () => {
-  const { loading, address, connectWallet } = useStateContext();
+  const { loading } = useStateContext();
 
   const [display, setDisplay] = React.useState();
   const [file, setFile] = React.useState();
-
-  const router = useRouter();
 
   const retrieveFile = (e) => {
     const data = e.target.files[0];
@@ -87,7 +83,7 @@ const CreateNFT = () => {
               </div>
             )}
             <div className="mt-8 md:mt-0">
-              <SignupFormDemo file={file} setFile={setFile} />
+              <SignupFormDemo file={file} setDisplay={setDisplay} />
             </div>
           </div>
         </div>

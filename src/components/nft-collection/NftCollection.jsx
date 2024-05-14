@@ -10,15 +10,21 @@ export default function NftCollection() {
   const [values, setValues] = useState(new Set([]));
   const [allNfts, setAllNfts] = useState([]);
   const [ecommerceCards, setEcommerceCards] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [query, setQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchResultsFound, setSearchResultsFound] = useState(true);
 
-  const { getAllNFT } = useStateContext();
+  const { getAllNFT, setNotification } = useStateContext();
 
   const handleGetAllNFTs = async () => {
     try {
       const nfts = await getAllNFT();
       setAllNfts(nfts);
+      setLoading(false);
     } catch (error) {
       console.error("Error getting all NFTs:", error);
+      setLoading(false);
     }
   };
 
@@ -27,30 +33,29 @@ export default function NftCollection() {
   }, []);
 
   useEffect(() => {
-    if (allNfts.length === 0) return;
+    if (allNfts === undefined) return setNotification("Tidak ada nft");
 
     const fetchData = async () => {
       try {
-        const ecommerceCards = await Promise.all(
+        const results = await Promise.all(
           allNfts.map(async (nft) => {
             const resp = await fetch(nft.tokenUri);
             if (!resp.ok) {
               throw new Error(resp.statusText);
             }
             const data = await resp.json();
-            return (
-              <EcommerceCard
-                key={nft.id}
-                id={nft.id}
-                name={data.name}
-                owner={data.owner}
-                desc={data.description}
-                image={data.image}
-              />
-            );
+
+            return {
+              id: nft.id,
+              name: data.name,
+              owner: data.owner,
+              desc: data.description,
+              image: data.image,
+            };
           })
         );
-        setEcommerceCards(ecommerceCards);
+
+        setSearchResults(results);
       } catch (error) {
         console.error("Error fetching tokenUris:", error);
       }
@@ -59,25 +64,58 @@ export default function NftCollection() {
     fetchData();
   }, [allNfts]);
 
-  return (
-    <div className="min-h-screen w-full dark:bg-black bg-white dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative max-w-screen-xl mx-auto px-6">
-      <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
-      <Search />
-      <div className="flex justify-end mb-12">
-        <Category
-          values={values}
-          setValues={setValues}
-          show={false}
-          text={"NFT Category"}
+  useEffect(() => {
+    const filteredResults = searchResults.filter(
+      (result) =>
+        result.name.toLowerCase().includes(query.toLowerCase()) ||
+        result.desc.toLowerCase().includes(query.toLowerCase())
+    );
+
+    setSearchResultsFound(filteredResults.length > 0);
+    setEcommerceCards(
+      filteredResults.map((result) => (
+        <EcommerceCard
+          key={result.id}
+          id={result.id}
+          name={result.name}
+          owner={result.owner}
+          desc={result.desc}
+          image={result.image}
         />
-      </div>
-      {allNfts.length !== 0 ? (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {ecommerceCards}
-        </div>
+      ))
+    );
+  }, [searchResults, query]);
+
+  return (
+    <>
+      {loading ? (
+        <Loading text="Loading..." />
       ) : (
-        <Loading text="Theren't Collections" />
+        <div className="min-h-screen w-full dark:bg-black bg-white dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative max-w-screen-xl mx-auto px-6">
+          <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
+          <Search setQuery={setQuery} />
+          <div className="flex justify-end mb-12">
+            <Category
+              values={values}
+              setValues={setValues}
+              show={false}
+              text={"NFT Category"}
+            />
+          </div>
+          {allNfts !== undefined ? (
+            <>
+              {!searchResultsFound && (
+                <div className="text-sm" ><Loading text="No results found for your search." /></div>
+              )}
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {ecommerceCards}
+              </div>
+            </>
+          ) : (
+            <Loading text="Theren't Collections" />
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 }

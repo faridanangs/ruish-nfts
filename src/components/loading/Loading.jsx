@@ -3,7 +3,7 @@ import style from "./Logo.module.css";
 
 const Loading = ({text}) => {
   return (
-    <div className="w-full min-h-screen flex items-center md:gap-16 justify-center flex-col gap-8">
+    <div className="w-full min-h-screen flex items-center md:gap-16 justify-center flex-col gap-8 text-center">
       <div className={`${style.spinner}`}>
         <div></div>
         <div></div>

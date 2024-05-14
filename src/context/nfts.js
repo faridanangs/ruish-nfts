@@ -2,6 +2,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { ethers } from "ethers"
 import { contractAbi, contractAddress } from "./contract-abi";
+import { useRouter } from "next/navigation";
 
 const StateContext = createContext()
 
@@ -9,6 +10,8 @@ export const StateContextProvider = ({ children }) => {
     const [address, setAddress] = useState(null)
     const [loading, setLoading] = useState(false);
     const [notification, setNotification] = useState("");
+
+    const router = useRouter();
 
     useEffect(() => {
         let timer;
@@ -75,6 +78,7 @@ export const StateContextProvider = ({ children }) => {
                     createdAt: formattedDate
                 };
             });
+
             return nftsArray;
         } catch (error) {
             console.log(error)
@@ -88,6 +92,7 @@ export const StateContextProvider = ({ children }) => {
         const tx = await contract.createNFT(ownerAddress, tokenUri)
         await tx.wait();
         setNotification("Create NFT Successful")
+        router.push("/nft-collection");
     }
 
     const getNFTByID = async (id) => {
@@ -124,6 +129,8 @@ export const StateContextProvider = ({ children }) => {
 
     useEffect(() => {
         checkIfAccountExist();
+        // getAllNFT()
+
     }, [address]);
 
     return (

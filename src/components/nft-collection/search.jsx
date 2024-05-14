@@ -1,23 +1,24 @@
 "use client";
 
+import { useState } from "react";
 import { PlaceholdersAndVanishInput } from "../ui/search-input";
 
-export function Search() {
+export function Search({ setQuery }) {
   const placeholders = [
     "What makes NFTs so unique?",
     "What is DeFi (Decentralized Finance)?",
     "How is a blockchain transaction validated?",
     "Write a smart contract to mint an NFT on Ethereum.",
     "What is Proof of Stake consensus in crypto?",
-];
-
+  ];
+  const [value, setValue] = useState("");
 
   const handleChange = (e) => {
-    console.log(e.target.value);
+    setValue(e.target.value);
   };
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    console.log("submitted");
+    setQuery(value);
   };
   return (
     <div className="mb-8">

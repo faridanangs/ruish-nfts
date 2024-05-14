@@ -3,7 +3,13 @@ import { useStateContext } from "@/context/nfts";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Loading from "../loading/Loading";
-import { FaEthereum, FaRegHeart, FaExternalLinkAlt } from "react-icons/fa";
+import {
+  FaEthereum,
+  FaRegHeart,
+  FaExternalLinkAlt,
+  FaCartSh,
+} from "react-icons/fa";
+import { FaCartShopping } from "react-icons/fa6";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { TbFileDescription } from "react-icons/tb";
 import { IoIosArrowDown } from "react-icons/io";
@@ -101,12 +107,22 @@ const DetailNft = ({ id }) => {
                       Current Price
                     </p>
                     <div className="flex items-center">
-                      <h1 className="font-bold text-xl px-2">0,01 ETH</h1>
+                      <h1 className="font-bold text-xl px-1 py-1">0.01 ETH</h1>
                       <h3 className="text-[10px] mt-2 font-bold text-blue-gray-200">
                         Rp:446.000.00
                       </h3>
                     </div>
-                    <Button fullWidth>Buy Now</Button>
+                    <div className="flex items-center bg-gradient-to-r from-blue-gray-700 to-blue-gray-900 rounded-md">
+                      <Button
+                        fullWidth
+                        className="bg-transparent border-r-1 rounded-none border-gray-500"
+                      >
+                        Buy Now{" "}
+                      </Button>
+                      <span className="h-full text-xl px-3 cursor-pointer hover:text-green-500 hover:scale-105 inline-block">
+                        <FaCartShopping />
+                      </span>
+                    </div>
                   </div>
                 </div>
 
