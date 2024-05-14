@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
@@ -7,10 +6,12 @@ import { Textarea } from "../ui/textarea";
 import Category from "./category";
 import { useStateContext } from "@/context/nfts";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export function SignupFormDemo({ file, setFile }) {
-  const { setLoading, createNFT, setNotification, address } = useStateContext();
+  const { setLoading, createNFT, address } = useStateContext();
 
+  const router = useRouter();
   const [values, setValues] = useState([]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -60,7 +61,8 @@ export function SignupFormDemo({ file, setFile }) {
         const jsonUri = `https://gateway.pinata.cloud/ipfs/${pinataMetadata.data.IpfsHash}`;
 
         await createNFT(address, jsonUri);
-        setFile(null);
+        router.push("/nft-collection");
+        setFile("");
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -72,7 +74,7 @@ export function SignupFormDemo({ file, setFile }) {
     setEmail("");
     setValues([]);
     setDescription("");
-    setFile(null);
+    setFile("");
     setLoading(false);
   };
 

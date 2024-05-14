@@ -1,26 +1,55 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { EcommerceCard, LayoutGridDemo } from "./Card";
+import { EcommerceCard } from "./Card";
 import { Search } from "./search";
 import Category from "../create-nft/category";
 import { useStateContext } from "@/context/nfts";
 
 export default function NftCollection() {
-  const [values, setValues] = React.useState(new Set([]));
-  const [allNfts, setallNfts] = useState();
+  const [values, setValues] = useState(new Set([]));
+  const [allNfts, setAllNfts] = useState([]);
+  const [ecommerceCards, setEcommerceCards] = useState([]);
 
   const { getAllNFT } = useStateContext();
 
   const handleGetAllNFTs = async () => {
     const nfts = await getAllNFT();
-    setallNfts(nfts);
+    setAllNfts(nfts);
   };
 
   useEffect(() => {
     handleGetAllNFTs();
   }, []);
 
-  console.log(allNfts);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const ecommerceCards = await Promise.all(
+          allNfts.map(async (nft) => {
+            const resp = await fetch(nft.tokenUri);
+            if (!resp.ok) {
+              throw new Error(resp.statusText);
+            }
+            const data = await resp.json();
+            return (
+              <EcommerceCard
+                id={nft.id}
+                name={data.name}
+                owner={data.owner}
+                desc={data.description}
+                image={data.image}
+              />
+            );
+          })
+        );
+        setEcommerceCards(ecommerceCards);
+      } catch (error) {
+        console.error("Error fetching tokenUris:", error);
+      }
+    };
+
+    fetchData();
+  }, [allNfts]);
 
   return (
     <div className="min-h-screen w-full dark:bg-black bg-white dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative max-w-screen-xl mx-auto px-6">
@@ -34,15 +63,9 @@ export default function NftCollection() {
           text={"NFT Category"}
         />
       </div>
-      {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {allNfts?.map(async (val, i) => {
-          const resp = await fetch(val.tokenUri);
-          console.log(resp);
-          return (
-            <EcommerceCard owner={val.owner} id={val.id} uri={val.tokenUri} />
-          );
-        })}
-      </div> */}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {ecommerceCards ? ecommerceCards : "lol"}
+      </div>
     </div>
   );
 }

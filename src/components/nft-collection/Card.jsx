@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import {
   Card,
   CardHeader,
@@ -10,13 +10,14 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-export function EcommerceCard({owner, uri, id}) {  
+export function EcommerceCard({ id, image, desc, name }) {
   return (
-    <Card className="w-full backdrop-blur-md relative ">
+    <Card className="w-full relative bg-gradient-to-l from-blue-gray-200 to-blue-gray-400">
+      <div className="absolute text-lg text-white p-2 bottom-0 right-0 bg-black/90 rounded-sm">#{id}</div>
       <CardHeader shadow={false} floated={false}>
         <Image
-          src="https://images.unsplash.com/photo-1629367494173-c78a56567877?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80"
-          alt="card-image"
+          src={image}
+          alt={name}
           className="w-full h-[14rem] sm:h-[18rem] md:h-[16rem] object-cover"
           width={500}
           priority={100}
@@ -25,20 +26,19 @@ export function EcommerceCard({owner, uri, id}) {
       </CardHeader>
       <CardBody>
         <div className=" flex items-center justify-between">
-          <Typography color="blue-gray" className="font-medium">
-            Apple AirPods
+          <Typography color="blue-gray" className="font-bold max-w-[13rem]">
+            {name.slice(0, 20).toUpperCase()}
           </Typography>
-          <Typography color="blue-gray" className="font-medium">
-            $95.00
+          <Typography color="blue-gray" className="font-semibold text-sm">
+            0,004 ETH
           </Typography>
         </div>
         <Typography
           variant="small"
-          color="gray"
-          className="font-normal opacity-75"
+          color="black"
+          className="font-normal"
         >
-          With plenty of talk and listen time, voice-activated Siri access, and
-          an available wireless charging case.
+          {desc}
         </Typography>
       </CardBody>
       <CardFooter className="pt-0">

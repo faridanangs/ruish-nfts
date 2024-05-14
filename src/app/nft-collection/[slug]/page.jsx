@@ -1,7 +1,8 @@
+import DetailNft from "@/components/nft-collection/detailNft";
 import React from "react";
 
 const page = ({ params }) => {
-  return <div>page</div>;
+  return <DetailNft />;
 };
 
 export default page;

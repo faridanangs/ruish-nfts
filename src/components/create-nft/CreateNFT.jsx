@@ -1,14 +1,20 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import { IoMdClose } from "react-icons/io";
 import { SignupFormDemo } from "./property";
 import { useStateContext } from "@/context/nfts";
+import Loading from "../loading/Loading";
+import { useRouter } from "next/navigation";
+import { Button } from "@material-tailwind/react";
 
 const CreateNFT = () => {
-  const { loading } = useStateContext();
-  const [display, setDisplay] = useState();
-  const [file, setFile] = useState();
+  const { loading, address, connectWallet } = useStateContext();
+
+  const [display, setDisplay] = React.useState();
+  const [file, setFile] = React.useState();
+
+  const router = useRouter();
 
   const retrieveFile = (e) => {
     const data = e.target.files[0];
@@ -30,11 +36,11 @@ const CreateNFT = () => {
   return (
     <>
       {loading ? (
-        "Loading.."
+        <Loading text="Loading..." />
       ) : (
         <div className="text-white bg-black max-w-screen-xl mx-auto w-full md:min-h-[100vh] md:items-center justify-center md:flex">
           <div className="flex flex-col items-center md:flex-row md:justify-between md:px-8 md:items-start md:gap-6 pt-8 md:py-20 md:rounded-md w-full ">
-            <div className="w-[22rem] h-[22rem] border-dashed border-[2px] flex items-center justify-center flex-col p-2 md:p-0 md:mt-3 relative max-w-[22rem] min-w-[20rem]">
+            <div className="w-[19rem] h-[22rem] border-dashed border-[2px] flex items-center justify-center flex-col p-2 md:p-0 md:mt-3 relative max-w-[22rem] min-w-[18rem]">
               {display != null ? (
                 <>
                   <span className="absolute top-0 right-0 z-10">
@@ -43,7 +49,13 @@ const CreateNFT = () => {
                       onClick={() => setDisplay(null)}
                     />
                   </span>
-                  <Image src={display} alt="nft images" fill quality={100} />
+                  <Image
+                    src={display}
+                    alt="nft images"
+                    fill
+                    quality={100}
+                    className="object-contain"
+                  />
                 </>
               ) : (
                 <>
