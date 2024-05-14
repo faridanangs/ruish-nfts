@@ -4,6 +4,7 @@ import { EcommerceCard } from "./Card";
 import { Search } from "./search";
 import Category from "../create-nft/category";
 import { useStateContext } from "@/context/nfts";
+import Loading from "../loading/Loading";
 
 export default function NftCollection() {
   const [values, setValues] = useState(new Set([]));
@@ -13,8 +14,12 @@ export default function NftCollection() {
   const { getAllNFT } = useStateContext();
 
   const handleGetAllNFTs = async () => {
-    const nfts = await getAllNFT();
-    setAllNfts(nfts);
+    try {
+      const nfts = await getAllNFT();
+      setAllNfts(nfts);
+    } catch (error) {
+      console.error("Error getting all NFTs:", error);
+    }
   };
 
   useEffect(() => {
@@ -22,6 +27,8 @@ export default function NftCollection() {
   }, []);
 
   useEffect(() => {
+    if (allNfts.length === 0) return;
+
     const fetchData = async () => {
       try {
         const ecommerceCards = await Promise.all(
@@ -33,6 +40,7 @@ export default function NftCollection() {
             const data = await resp.json();
             return (
               <EcommerceCard
+                key={nft.id}
                 id={nft.id}
                 name={data.name}
                 owner={data.owner}
@@ -63,9 +71,13 @@ export default function NftCollection() {
           text={"NFT Category"}
         />
       </div>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {ecommerceCards ? ecommerceCards : "lol"}
-      </div>
+      {allNfts.length !== 0 ? (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {ecommerceCards}
+        </div>
+      ) : (
+        <Loading text="Theren't Collections" />
+      )}
     </div>
   );
 }

@@ -13,7 +13,9 @@ import Link from "next/link";
 export function EcommerceCard({ id, image, desc, name }) {
   return (
     <Card className="w-full relative bg-gradient-to-l from-blue-gray-200 to-blue-gray-400">
-      <div className="absolute text-lg text-white p-2 bottom-0 right-0 bg-black/90 rounded-sm">#{id}</div>
+      <div className="absolute text-lg text-white p-2 bottom-0 right-0 bg-black/90 rounded-sm">
+        #{id}
+      </div>
       <CardHeader shadow={false} floated={false}>
         <Image
           src={image}
@@ -24,25 +26,23 @@ export function EcommerceCard({ id, image, desc, name }) {
           height={500}
         />
       </CardHeader>
-      <CardBody>
+      <CardBody className="min-h-[8rem] max-h-[8rem]">
         <div className=" flex items-center justify-between">
           <Typography color="blue-gray" className="font-bold max-w-[13rem]">
-            {name.slice(0, 20).toUpperCase()}
+            {name.length >= 16
+              ? name.slice(0, 16).toUpperCase() + "..."
+              : name.toUpperCase()}
           </Typography>
           <Typography color="blue-gray" className="font-semibold text-sm">
             0,004 ETH
           </Typography>
         </div>
-        <Typography
-          variant="small"
-          color="black"
-          className="font-normal"
-        >
-          {desc}
+        <Typography variant="small" color="black" className="font-normal">
+          {desc.length >= 80 ? desc.slice(0, 80) + "...." : desc}
         </Typography>
       </CardBody>
       <CardFooter className="pt-0">
-        <Link href="/nft-collection/1 ">
+        <Link href={`/nft-collection/${id}`}>
           <Button
             variant="text"
             className="flex items-center gap-2 bg-black text-white hover:bg-black/70"

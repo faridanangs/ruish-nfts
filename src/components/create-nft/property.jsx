@@ -19,7 +19,7 @@ export function SignupFormDemo({ file, setFile }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if ((file && name && email && description, values)) {
+    if ((file && name && email && description, values && address)) {
       try {
         setLoading(true);
         const formFile = new FormData();
