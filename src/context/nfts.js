@@ -182,7 +182,7 @@ export const StateContextProvider = ({ children }) => {
 
             })
             const result = await Promise.all(transaction);
-            setHistory(result);
+            return result
         } catch (error) {
             console.log(error)
         }
@@ -221,15 +221,12 @@ export const StateContextProvider = ({ children }) => {
 
     useEffect(() => {
         checkIfAccountExist();
-        // getAllTransactionHistory()
         getLogs()
     }, [address]);
 
-    console.log(history)
-
     return (
         <StateContext.Provider value={{
-            address, connectWallet, loading, buyNft, history, getNFTByID, getAllNFT, createNFT, setLoading, setNotification, notification
+            address, connectWallet, loading, buyNft, getAllTransactionHistory, getNFTByID, getAllNFT, createNFT, setLoading, setNotification, notification
         }}>{children}</StateContext.Provider>
     )
 }

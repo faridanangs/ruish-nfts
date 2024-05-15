@@ -8,19 +8,36 @@ import { FaCartShopping } from "react-icons/fa6";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { TbFileDescription } from "react-icons/tb";
 import { IoIosArrowDown } from "react-icons/io";
-import { Button } from "@material-tailwind/react";
+import { Button as BTN } from "@material-tailwind/react";
 import Link from "next/link";
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+  getKeyValue,
+  Spinner,
+  Button,
+} from "@nextui-org/react";
+import { useAsyncList } from "@react-stately/data";
 
 const DetailNft = ({ id }) => {
-  const { getNFTByID, setNotification, buyNft } = useStateContext();
+  const { getNFTByID, setNotification, buyNft, getAllTransactionHistory } = useStateContext();
   const [dataNft, setDataNft] = useState(null);
   const [metadata, setMetadata] = useState();
   const [loading, setLoading] = useState(true);
+  const [history, setHistory] = useState();
+  
 
   useEffect(() => {
     const fetchData = async () => {
       const nft = await getNFTByID(id);
       setDataNft(nft);
+      const history = await getAllTransactionHistory()
+      console.log(history, "hhis")
+      setHistory(history);
 
       if (nft && nft.tokenUri) {
         try {
@@ -107,16 +124,16 @@ const DetailNft = ({ id }) => {
                       </h1>
                     </div>
                     <div className="flex items-center bg-gradient-to-r from-blue-gray-700 to-blue-gray-900 rounded-md">
-                      <Button
+                      <BTN
                         fullWidth
                         className="bg-transparent border-r-1 rounded-none border-gray-500"
                         onClick={() => {
                           buyNft(dataNft.id, dataNft.price);
-                          setLoading(true)
+                          setLoading(true);
                         }}
                       >
                         Buy Now{" "}
-                      </Button>
+                      </BTN>
                       <span className="h-full text-xl px-3 cursor-pointer hover:text-green-500 hover:scale-105 inline-block">
                         <FaCartShopping />
                       </span>
@@ -156,10 +173,82 @@ const DetailNft = ({ id }) => {
                 </div>
               </div>
             </div>
+            <div className="my-8">
+              <h1 className="font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-gray-400 to-blue-gray-800 text-xl md:text-2xl">
+                Transaction History
+              </h1>
+              <TransactionHistory history={history}/>
+            </div>
           </div>
         </div>
       )}
     </div>
+  );
+};
+
+const TransactionHistory = ({history}) => {
+  console.log(history,"hist")
+  const [page, setPage] = React.useState(1);
+  const [isLoading, setIsLoading] = React.useState(true);
+  let list = useAsyncList({
+    async load({ signal, cursor }) {
+      if (cursor) {
+        setPage((prev) => prev + 1);
+      }
+
+      if (!cursor) {
+        setIsLoading(false);
+      }
+
+      
+    },
+  });
+  const hasMore = page < 9;
+
+  return (
+    <Table
+      isHeaderSticky
+      aria-label="Example table with client side sorting"
+      bottomContent={
+        hasMore && !isLoading ? (
+          <div className="flex w-full justify-center">
+            <Button
+              isDisabled={list.isLoading}
+              variant="flat"
+              onPress={list.loadMore}
+            >
+              {list.isLoading && <Spinner color="white" size="sm" />}
+              Load More
+            </Button>
+          </div>
+        ) : null
+      }
+      classNames={{
+        base: "max-h-[520px] overflow-scroll",
+        table: "min-h-[420px]",
+      }}
+    >
+      <TableHeader>
+        <TableColumn key="hash">Hash</TableColumn>
+        <TableColumn key="blockNumber">Block</TableColumn>
+        <TableColumn key="from">From</TableColumn>
+        <TableColumn key="to">To</TableColumn>
+        <TableColumn key="value">Value</TableColumn>
+      </TableHeader>
+      <TableBody
+        isLoading={isLoading}
+        items={history}
+        loadingContent={<Spinner label="Loading..." />}
+      >
+        {(item) => (
+          <TableRow key={item.name}>
+            {(columnKey) => (
+              <TableCell>{getKeyValue(item, columnKey)}</TableCell>
+            )}
+          </TableRow>
+        )}
+      </TableBody>
+    </Table>
   );
 };
 

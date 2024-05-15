@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['images.unsplash.com', "www.whitmorerarebooks.com", 'images.pexels.com', 'gateway.pinata.cloud'], // Tambahkan domain Unsplash dan Pexels di sini
+    domains: ['images.unsplash.com', "www.whitmorerarebooks.com", "swapi.py4e.com", 'images.pexels.com', 'gateway.pinata.cloud'], // Tambahkan domain Unsplash dan Pexels di sini
   },
 };
 
