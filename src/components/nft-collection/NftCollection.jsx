@@ -44,13 +44,13 @@ export default function NftCollection() {
               throw new Error(resp.statusText);
             }
             const data = await resp.json();
-
             return {
               id: nft.id,
               name: data.name,
               owner: data.owner,
               desc: data.description,
               image: data.image,
+              price: nft.price,
             };
           })
         );
@@ -81,6 +81,7 @@ export default function NftCollection() {
           owner={result.owner}
           desc={result.desc}
           image={result.image}
+          price={result.price}
         />
       ))
     );
@@ -105,7 +106,9 @@ export default function NftCollection() {
           {allNfts !== undefined ? (
             <>
               {!searchResultsFound && (
-                <div className="text-sm" ><Loading text="No results found for your search." /></div>
+                <div className="text-sm">
+                  <Loading text="No results found for your search." />
+                </div>
               )}
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {ecommerceCards}

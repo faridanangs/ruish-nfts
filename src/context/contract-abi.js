@@ -1,4 +1,4 @@
-export const contractAddress = "0x2e63F42E9Db108bc06Ac4fE564DA5F6462C45F30";
+export const contractAddress = "0xd4cCA4568cA2d963Cd41f3B8c20e05D8ca77F14C";
 export const contractAbi = [
     {
         "inputs": [],
@@ -255,6 +255,19 @@ export const contractAbi = [
     {
         "inputs": [
             {
+                "internalType": "uint256",
+                "name": "_id",
+                "type": "uint256"
+            }
+        ],
+        "name": "buyNft",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
                 "internalType": "address",
                 "name": "player",
                 "type": "address"
@@ -300,6 +313,11 @@ export const contractAbi = [
                     {
                         "internalType": "uint256",
                         "name": "createdAt",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "price",
                         "type": "uint256"
                     }
                 ],
@@ -358,6 +376,11 @@ export const contractAbi = [
             {
                 "internalType": "uint256",
                 "name": "createdAt_",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "price_",
                 "type": "uint256"
             }
         ],
@@ -576,4 +599,4 @@ export const contractAbi = [
         "stateMutability": "nonpayable",
         "type": "function"
     }
-];
+]

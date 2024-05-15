@@ -3,12 +3,7 @@ import { useStateContext } from "@/context/nfts";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Loading from "../loading/Loading";
-import {
-  FaEthereum,
-  FaRegHeart,
-  FaExternalLinkAlt,
-  FaCartSh,
-} from "react-icons/fa";
+import { FaEthereum, FaRegHeart, FaExternalLinkAlt } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { TbFileDescription } from "react-icons/tb";
@@ -17,7 +12,7 @@ import { Button } from "@material-tailwind/react";
 import Link from "next/link";
 
 const DetailNft = ({ id }) => {
-  const { getNFTByID, setNotification } = useStateContext();
+  const { getNFTByID, setNotification, buyNft } = useStateContext();
   const [dataNft, setDataNft] = useState(null);
   const [metadata, setMetadata] = useState();
   const [loading, setLoading] = useState(true);
@@ -107,15 +102,18 @@ const DetailNft = ({ id }) => {
                       Current Price
                     </p>
                     <div className="flex items-center">
-                      <h1 className="font-bold text-xl px-1 py-1">0.01 ETH</h1>
-                      <h3 className="text-[10px] mt-2 font-bold text-blue-gray-200">
-                        Rp:446.000.00
-                      </h3>
+                      <h1 className="font-bold text-xl px-1 py-1">
+                        {dataNft.price} ETH
+                      </h1>
                     </div>
                     <div className="flex items-center bg-gradient-to-r from-blue-gray-700 to-blue-gray-900 rounded-md">
                       <Button
                         fullWidth
                         className="bg-transparent border-r-1 rounded-none border-gray-500"
+                        onClick={() => {
+                          buyNft(dataNft.id, dataNft.price);
+                          setLoading(true)
+                        }}
                       >
                         Buy Now{" "}
                       </Button>

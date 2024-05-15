@@ -10,7 +10,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-export function EcommerceCard({ id, image, desc, name }) {
+export function EcommerceCard({ id, image, desc, name, price }) {
   return (
     <Card className="w-full relative bg-gradient-to-l from-blue-gray-200 to-blue-gray-400">
       <div className="absolute text-lg text-white p-2 bottom-0 right-0 bg-black/90 rounded-sm">
@@ -34,7 +34,7 @@ export function EcommerceCard({ id, image, desc, name }) {
               : name.toUpperCase()}
           </Typography>
           <Typography color="blue-gray" className="font-semibold text-sm">
-            0,004 ETH
+            {price}{" "} ETH
           </Typography>
         </div>
         <Typography variant="small" color="black" className="font-normal">
