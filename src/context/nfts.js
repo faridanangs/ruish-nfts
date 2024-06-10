@@ -10,7 +10,6 @@ export const StateContextProvider = ({ children }) => {
     const [address, setAddress] = useState(null)
     const [loading, setLoading] = useState(false);
     const [notification, setNotification] = useState("");
-    const [history, setHistory] = useState([])
 
     const router = useRouter();
 
@@ -23,19 +22,6 @@ export const StateContextProvider = ({ children }) => {
         }
         return () => clearTimeout(timer)
     }, [notification])
-
-    const connectWallet = async () => {
-        try {
-            if (!window.ethereum) return setNotification("You don't have metamask!");
-            const provider = new ethers.BrowserProvider(window.ethereum);
-            const signer = await provider.getSigner();
-            const address = await signer.getAddress();
-            setAddress(address);
-
-        } catch (error) {
-            console.log(error)
-        }
-    }
 
     const checkIfAccountExist = async () => {
         try {
@@ -95,7 +81,6 @@ export const StateContextProvider = ({ children }) => {
         await tx.wait();
         setNotification("Create NFT Successful")
         router.push("/nft-collection");
-        await getLogs();
     }
 
     const buyNft = async (tokenID, value) => {
@@ -110,10 +95,10 @@ export const StateContextProvider = ({ children }) => {
         })
 
         await tx.wait();
+        window.location.reload();
         setLoading(false)
         setNotification("Buy NFT Successfully")
-        router.push(`/nft-collection/${tokenID}`);
-        await getLogs();
+
     }
 
     const getNFTByID = async (id) => {
@@ -143,90 +128,58 @@ export const StateContextProvider = ({ children }) => {
                 createdAt: formattedDate
             };
 
-            await getLogs();
             return dataNft
         } catch (error) {
             console.log(error)
         }
     }
 
-    const getAllTransactionHistory = async () => {
-        const provider = new ethers.BrowserProvider(window.ethereum);
-
-        const filter = {
-            address: address,
-            fromBlock: 0,
-            toBlock: "latest"
-        }
-
+    const getHistoryID = async (id)=> {
         try {
-            const logs = await provider.getLogs(filter);
-            console.log(logs, "logs")
-            const transaction = logs.map(async log => {
-                const tx = await provider.getTransaction(log.transactionHash);
-                return {
-                    hash: tx.hash,
-                    blockNumber: tx.blockNumber,
-                    data: tx.data,
-                    from: tx.from,
-                    to: tx.to,
-                    value: ethers.formatEther(tx.value),
-                    gasLimit: Number(tx.gasLimit),
-                    gasPrice: ethers.formatEther(Number(tx.gasPrice)),
-                    chainId: Number(tx.chainId),
-                    nonce: Number(tx.nonce),
-                    maxFeePerGas: Number(tx.maxFeePerGas),
-                    maxPriorityFeePerGas: Number(tx.maxPriorityFeePerGas),
-                    type: tx.type,
-                }
+            const provider = new ethers.BrowserProvider(window.ethereum);
+            const signer = await provider.getSigner();
+            const contract = new ethers.Contract(contractAddress, contractAbi, signer);
+            const history = await contract.getHistoryTransactionID(id);
+            const result = history.map(his=> {
 
+                const createdAt = new Date(Number(his[5]) * 1000); // Konversi timestamp ke milidetik
+
+                // Ambil bagian-bagian tanggal
+                const day = createdAt.getDate();
+                const month = createdAt.getMonth() + 1; // Perhatikan bahwa bulan dimulai dari 0
+                const year = createdAt.getFullYear();
+                const hours = createdAt.getHours();
+                const minutes = createdAt.getMinutes();
+                const seconds = createdAt.getSeconds();
+
+                // Buat string dalam format yang diinginkan
+                const formattedDate = `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+                return (
+                    {
+                        index: Number(his[0]),
+                        from: his[1].slice(0,20)+"...",
+                        to: his[2].slice(0,20)+"...",
+                        id: Number(his[3]),
+                        amount: ethers.formatEther(his[4]).toString()+" ETH",
+                        time: formattedDate
+                    }
+                )
             })
-            const result = await Promise.all(transaction);
+
             return result
         } catch (error) {
             console.log(error)
         }
-    }
 
-
-    const getLogs = async () => {
-        const provider = new ethers.BrowserProvider(window.ethereum);
-
-        let abi = ["event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)"]
-        let iface = new ethers.Interface(abi);
-
-        const filter = {
-            address: address,
-            fromBlock: 0,
-            toBlock: "latest"
-        }
-
-        var callPromise = provider.getLogs(filter);
-        callPromise.then(function (events) {
-            events.map((log) => {
-                const result = iface.parseLog(log);
-                console.log(result)
-                setHistory(
-                    {
-                        from: result.args[0],
-                        to: result.args[1],
-                        tokenId: Number(result.args[2])
-                    }
-                )
-            });
-        }).catch(function (err) {
-            console.log(err);
-        });
     }
 
     useEffect(() => {
         checkIfAccountExist();
-        getLogs()
     }, [address]);
 
     return (
         <StateContext.Provider value={{
-            address, connectWallet, loading, buyNft, getAllTransactionHistory, getNFTByID, getAllNFT, createNFT, setLoading, setNotification, notification
+            address, loading, buyNft, getNFTByID, getHistoryID ,getAllNFT, createNFT, setLoading, setNotification, notification
         }}>{children}</StateContext.Provider>
     )
 }

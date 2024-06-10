@@ -47,6 +47,7 @@ module.exports = withMT({
     },
   },
   plugins: [
+    require('tailwind-scrollbar'),
     addVariablesForColors,
     function ({ matchUtilities, theme }) {
       matchUtilities(

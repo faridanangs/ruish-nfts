@@ -22,22 +22,23 @@ import {
   Button,
 } from "@nextui-org/react";
 import { useAsyncList } from "@react-stately/data";
+import { useAccount, useReadContract } from "wagmi";
+import { contractAbi, contractAddress } from "@/context/contract-abi";
 
 const DetailNft = ({ id }) => {
-  const { getNFTByID, setNotification, buyNft, getAllTransactionHistory } = useStateContext();
+  const { getNFTByID, setNotification, buyNft, getHistoryID } = useStateContext();
   const [dataNft, setDataNft] = useState(null);
   const [metadata, setMetadata] = useState();
   const [loading, setLoading] = useState(true);
   const [history, setHistory] = useState();
-  
 
   useEffect(() => {
     const fetchData = async () => {
       const nft = await getNFTByID(id);
       setDataNft(nft);
-      const history = await getAllTransactionHistory()
-      console.log(history, "hhis")
-      setHistory(history);
+
+      const historyId = await getHistoryID(id);
+      setHistory(historyId);
 
       if (nft && nft.tokenUri) {
         try {
@@ -101,7 +102,7 @@ const DetailNft = ({ id }) => {
                 </div>
 
                 <div className="my-6">
-                  <span className="text-3xl text-blue-gray-100 font-bold flex items-center gap-1">
+                  <span className="text-3xl text-blue-gray-100 font-bold flex items-start justify-between gap-1">
                     <span>{metadata.name}</span>
                     <span>#{dataNft.id}</span>
                   </span>
@@ -174,10 +175,12 @@ const DetailNft = ({ id }) => {
               </div>
             </div>
             <div className="my-8">
-              <h1 className="font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-gray-400 to-blue-gray-800 text-xl md:text-2xl">
+              <h1 className="font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-gray-400 to-blue-gray-800 text-xl md:text-3xl my-3">
                 Transaction History
               </h1>
-              <TransactionHistory history={history}/>
+              {
+                history && <TransactionHistory history={history}/>
+              }
             </div>
           </div>
         </div>
@@ -187,7 +190,6 @@ const DetailNft = ({ id }) => {
 };
 
 const TransactionHistory = ({history}) => {
-  console.log(history,"hist")
   const [page, setPage] = React.useState(1);
   const [isLoading, setIsLoading] = React.useState(true);
   let list = useAsyncList({
@@ -203,47 +205,34 @@ const TransactionHistory = ({history}) => {
       
     },
   });
-  const hasMore = page < 9;
+  const hasMore = page < 2;
 
   return (
     <Table
       isHeaderSticky
       aria-label="Example table with client side sorting"
-      bottomContent={
-        hasMore && !isLoading ? (
-          <div className="flex w-full justify-center">
-            <Button
-              isDisabled={list.isLoading}
-              variant="flat"
-              onPress={list.loadMore}
-            >
-              {list.isLoading && <Spinner color="white" size="sm" />}
-              Load More
-            </Button>
-          </div>
-        ) : null
-      }
       classNames={{
-        base: "max-h-[520px] overflow-scroll",
-        table: "min-h-[420px]",
+        base: "max-h-[520px] overflow-scroll max-w-3xl",
+        table: "min-h-[50px]",
       }}
     >
       <TableHeader>
-        <TableColumn key="hash">Hash</TableColumn>
-        <TableColumn key="blockNumber">Block</TableColumn>
+        <TableColumn key="id">ID</TableColumn>
         <TableColumn key="from">From</TableColumn>
         <TableColumn key="to">To</TableColumn>
-        <TableColumn key="value">Value</TableColumn>
+        <TableColumn key="amount">Value</TableColumn>
+        <TableColumn key="time">Time</TableColumn>
       </TableHeader>
       <TableBody
         isLoading={isLoading}
         items={history}
         loadingContent={<Spinner label="Loading..." />}
+        className="flex items-center gap-2"
       >
         {(item) => (
           <TableRow key={item.name}>
             {(columnKey) => (
-              <TableCell>{getKeyValue(item, columnKey)}</TableCell>
+              <TableCell className="mx-4">{getKeyValue(item, columnKey)}</TableCell>
             )}
           </TableRow>
         )}

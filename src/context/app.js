@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation'; // Import usePathname
 import { StateContextProvider } from './nfts';
 import Footer from '@/components/Footer';
+import { WProviders } from '@/app/provider';
 
 const ContextRoot = ({ children }) => {
     const initialPathname = usePathname(); // Access initial pathname
@@ -17,10 +18,12 @@ const ContextRoot = ({ children }) => {
     const showFooter = pathname !== '/';
 
     return (
-        <StateContextProvider>
-            {children}
-            {showFooter && <Footer />}
-        </StateContextProvider>
+        <WProviders>
+            <StateContextProvider>
+                {children}
+                {showFooter && <Footer />}
+            </StateContextProvider>
+        </WProviders>
     );
 };
 

@@ -32,6 +32,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { useStateContext } from "@/context/nfts";
 import { AlertCustomStyles } from "./Notification";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const navListMenuItems = [
   {
@@ -183,7 +184,7 @@ function NavList() {
 
 export function NavbarWithMegaMenu() {
   const [openNav, setOpenNav] = React.useState(false);
-  const { connectWallet, address, notification } = useStateContext();
+  const { notification } = useStateContext();
 
   React.useEffect(() => {
     window.addEventListener(
@@ -208,12 +209,8 @@ export function NavbarWithMegaMenu() {
           <div className="hidden md:block">
             <NavList />
           </div>
-          <div className="hidden gap-2 md:flex" onClick={() => connectWallet()}>
-            <Button variant="gradient" size="sm">
-              {address
-                ? address.slice(0, 5) + "..." + address.slice(-5)
-                : "Connect"}
-            </Button>
+          <div className="hidden gap-2 md:flex">
+            <ConnectButton className="bg-blue-gray-600" chainStatus={"icon"} label="Connect" accountStatus="address" />
           </div>
           <IconButton
             variant="text"
@@ -231,16 +228,7 @@ export function NavbarWithMegaMenu() {
         <Collapse open={openNav}>
           <NavList />
           <div className="flex w-full flex-nowrap items-center gap-2 md:hidden">
-            <Button
-              variant="gradient"
-              size="sm"
-              fullWidth
-              onClick={connectWallet}
-            >
-              {address
-                ? address.slice(0, 5) + "..." + address.slice(-5)
-                : "Connect"}
-            </Button>
+            <ConnectButton chainStatus="icon" accountStatus="address" />
           </div>
         </Collapse>
       </Navbar>

@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px; /* Ubah ukuran scrollbar */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #000000; /* Warna track scrollbar */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #d2d2d2; /* Warna scrollbar */
+    border-radius: 10px; /* Membuat scrollbar lebih bulat */
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Warna scrollbar saat dihover */
+  }
